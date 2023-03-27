@@ -1,0 +1,23 @@
+.tasks {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.task {
+    padding: 8px 24px;
+    font-size: large;
+    border: 1px solid gainsboro;
+    width: 300px;
+    box-sizing: border-box;
+}
+
+.filter {
+    width: 300px;
+    padding: 8px 24px;
+    box-sizing: border-box;
+    font-size: large;
+
+}

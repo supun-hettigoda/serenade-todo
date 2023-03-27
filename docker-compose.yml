@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      - "POSTGRES_PASSWORD=serenade"
+      - "POSTGRES_USER=serenade"
+    volumes:
+      - "./database:/docker-entrypoint-initdb.d"
+    ports:
+      - "5432:5432"
