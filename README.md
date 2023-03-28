@@ -51,6 +51,15 @@ docker-compose down && docker-compose up
 ```
 to recreate the database with the new schema. 
 
+## env properties
+
+file | what it for
+--- | ---
+.env | default environment properties.
+.env.development | local developement environment properties.
+.env.test | test environment properties.
+
+Refer nextjs docs [here](https://nextjs.org/docs/basic-features/environment-variables).
 
 # Exercises
 

@@ -1,13 +1,12 @@
-import {Connection} from "postgresql-client";
-
+import { Connection } from "postgresql-client";
 
 const getConnection = () => {
     const connection = new Connection({
-        host: 'localhost',
-        port: 5432,
-        user: 'serenade',
-        password: 'serenade',
-        database: 'serenade',
+        host: process.env.DB_HOST,
+        port: parseInt(<string>process.env.DB_PORT),
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME,
         connectTimeoutMs: 5000,
     });
 
@@ -21,7 +20,7 @@ export const withDatabaseConnection = async <T>(callback: Callback<T>): Promise<
     await connection.connect();
     let result
     try {
-         result = await callback(connection);
+        result = await callback(connection);
     } finally {
         await connection.close();
     }
