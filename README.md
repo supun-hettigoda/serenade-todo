@@ -33,7 +33,9 @@ If you use Docker, you can run
 ```shell
 docker-compose up
 ```
-to get Postgres up and running. This will use port 5432 in your machine, so make sure it's free.
+to get Postgres up and running. This will bring up two postgres services for dev testing and integration tests,
+
+01. on port 5432 in your machine, so make sure it's free.
 
 Initial schema and test data will be created automatically.
 
@@ -60,6 +62,13 @@ file | what it for
 .env.test | test environment properties.
 
 Refer nextjs docs [here](https://nextjs.org/docs/basic-features/environment-variables).
+
+## Runing tests
+
+01. ```docker-compose up```
+02. ```npm run test```
+
+Jest has been configured to run api level testing with node execution enviornment. It will force all dao tests to be executed as database integration test against the test-db docker container. These tests at the moment will depends on the init script to have the scema ready and data ready for initial test cases.
 
 # Exercises
 
