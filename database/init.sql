@@ -11,6 +11,7 @@ CREATE TABLE tasks(
 );
 
 CREATE INDEX idx_tasks_title ON tasks(title);
+CREATE INDEX idx_tasks_projectid ON tasks(project_id);
 
 INSERT INTO projects(name) VALUES
     ('Project Salsa'),
