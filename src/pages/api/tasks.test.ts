@@ -4,7 +4,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 jest.mock('./dao/taskRepository');
 
 import { load } from "./dao/taskRepository";
-
 import handler from "./tasks";
 
 describe('/api/tasks endpoint handler test suit', () => {
@@ -21,7 +20,7 @@ describe('/api/tasks endpoint handler test suit', () => {
         } as unknown as jest.Mocked<NextApiResponse>;
 
         // loadAll beign mocked here to return 2 tasks
-        load.mockReturnValue(Promise.resolve({
+        (load as jest.Mock).mockReturnValue(Promise.resolve({
             tasks: [{ id: 'id-1', title: 'title-1', done: false }, { id: 'id-2', title: 'title-2', done: true }],
             totalCount: 2
         }));
@@ -62,7 +61,7 @@ describe('/api/tasks endpoint handler test suit', () => {
         expect(mockedRes.status).toHaveBeenCalledWith(200);
         expect(mockedRes.json).toHaveBeenCalledWith({
             items: [{ id: 'id-1', title: 'title-1', done: false }, { id: 'id-2', title: 'title-2', done: true }],
-            totalCount: 2
+            pagination: { totalCount: 2 }
         });
     });
 
@@ -73,7 +72,7 @@ describe('/api/tasks endpoint handler test suit', () => {
         expect(mockedRes.status).toHaveBeenCalledWith(200);
         expect(mockedRes.json).toHaveBeenCalledWith({
             items: [{ id: 'id-1', title: 'title-1', done: false }, { id: 'id-2', title: 'title-2', done: true }],
-            totalCount: 2
+            pagination: { totalCount: 2 }
         });
     })
 });
