@@ -10,6 +10,8 @@ CREATE TABLE tasks(
     done boolean not null
 );
 
+CREATE INDEX idx_tasks_title ON tasks(title);
+
 INSERT INTO projects(name) VALUES
     ('Project Salsa'),
     ('Project Tango');
