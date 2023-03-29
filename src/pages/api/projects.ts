@@ -19,8 +19,8 @@ export default async function handler(
         const data: { projects: Project[], totalCount: number } = await load();
 
         res.status(200).json({
-            totalCount: data.totalCount,
             items: data.projects,
+            pagination: { totalCount: data.totalCount },
         });
     } catch (e) {
         console.error(e);

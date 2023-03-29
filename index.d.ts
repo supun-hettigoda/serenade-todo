@@ -10,12 +10,17 @@ interface Project {
     tasks: Task[],
 }
 
-interface TasksResponse {
-    items: Task[],
-    totalCount: number,
-}
+interface TasksResponse extends PaginationItemsResponse<Tasks> { }
 
-interface ProjectsResponse {
-    items: Project[],
-    totalCount: number,
+interface ProjectsResponse extends PaginationItemsResponse<Project> { }
+
+interface PaginationItemsResponse<T> {
+    items: T[],
+    pagination: {
+        totalCount: number,
+        // TIDY remove the optional after pagination implemented.
+        pageCount?: number,
+        currentPage?: number,
+        perPage?: number
+    }
 }

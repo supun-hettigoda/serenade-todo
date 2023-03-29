@@ -36,7 +36,7 @@ export default async function handler(
         const data: { tasks: Task[], totalCount: number } = await load({ title: filter as string });
         res.status(200).json({
             items: data.tasks,
-            totalCount: data.totalCount,
+            pagination: { totalCount: data.totalCount }
         });
     } catch (e) {
         console.error(e);
