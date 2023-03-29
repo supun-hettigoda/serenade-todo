@@ -1,37 +1,27 @@
 import { withDatabaseConnection } from "../../../database/database";
 import { DataTypeOIDs, QueryResult } from 'postgresql-client';
 
-export const loadAll = async () => {
+export const load = async (filters?: { title?: String }): Promise<{ tasks: Task[], totalCount: number }> => {
     return withDatabaseConnection(async (connection) => {
-        const tasksQueryResult = await connection.query(
-            'SELECT id, title, done ' +
-            'FROM tasks ' +
-            'ORDER BY id ASC');
-        return mapTaskProperties(tasksQueryResult);
-    });
-};
+        let SQL: string = "SELECT id, title, done " + "FROM tasks ";
+        if (filters?.title) {
+            SQL = SQL + "WHERE title ilike $1 ";
+        }
+        SQL = SQL + "ORDER BY id ASC";
 
-export const loadByTitle = async (title: String) => {
-    return withDatabaseConnection(async (connection) => {
-        const statement = await connection.prepare(
-            "SELECT id, title, done " +
-            "FROM tasks " +
-            "WHERE title ilike $1 " +
-            "ORDER BY id ASC",
-            { paramTypes: [DataTypeOIDs.varchar] });
-
-        const tasksQueryResult = await statement.execute({ params: ["%" + title + "%"] });
+        const statement = await connection.prepare(SQL, { paramTypes: [DataTypeOIDs.varchar] });
+        const tasksQueryResult = await statement.execute({ params: ["%" + filters?.title + "%"] });
         await statement.close();
         return mapTaskProperties(tasksQueryResult);
     });
 };
 
-function mapTaskProperties(tasksQueryResult: QueryResult) {
-    const tasks = tasksQueryResult.rows?.map(row => ({
+function mapTaskProperties(tasksQueryResult: QueryResult): { tasks: Task[], totalCount: number } {
+    const tasks: Task[] = tasksQueryResult.rows?.map(row => ({
         id: row[0],
         title: row[1],
         done: row[2],
-    })) || [];
+    } as Task)) || [];
 
     return {
         tasks,

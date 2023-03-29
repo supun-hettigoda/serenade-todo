@@ -68,6 +68,8 @@ Refer nextjs docs [here](https://nextjs.org/docs/basic-features/environment-vari
 01. ```docker-compose up```
 02. ```npm run test```
 
+Or ```npm run:unit``` to run unit tests mocking dao layer.
+
 Jest has been configured to run api level testing with node execution enviornment. It will force all dao tests to be executed as database integration test against the test-db docker container. These tests at the moment will depends on the init script to have the scema ready and data ready for initial test cases.
 
 # Exercises
