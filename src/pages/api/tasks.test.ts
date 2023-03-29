@@ -48,7 +48,7 @@ describe('/api/tasks endpoint handler test suit', () => {
         })
 
         it('enforce max length to title filter', async () => {
-            // 60 at the moment change TASK_TITLE_MAX_LENGTH 
+            // 100 at the moment change TASK_TITLE_FILTER_INPUT_MAX_LENGTH 
             req.query = { filter: 'jfasdghjagsjhghjsdgfgsdfg sadfsd sdfgdsfg  sdrgd jhskgfjh jhagfhjs a jashdfjhasjhgjhk asdgfsdfg sdfgsdf gdsfg' }
             await handler(req, mockedRes);
             invalidRequestExpectations(mockedRes, 400);
@@ -57,6 +57,17 @@ describe('/api/tasks endpoint handler test suit', () => {
 
     it('filter param not present or empty must return all tasks', async () => {
         req.query = { filter: '' }
+        await handler(req, mockedRes);
+
+        expect(mockedRes.status).toHaveBeenCalledWith(200);
+        expect(mockedRes.json).toHaveBeenCalledWith({
+            items: [{ id: 'id-1', title: 'title-1', done: false }, { id: 'id-2', title: 'title-2', done: true }],
+            totalCount: 2
+        });
+    });
+
+    it('whitespaces are trimmed to return all', async () => {
+        req.query = { filter: '         ' }
         await handler(req, mockedRes);
 
         expect(mockedRes.status).toHaveBeenCalledWith(200);
