@@ -23,6 +23,13 @@ describe('Task repository tests', () => {
         });
     })
 
+    it('tasks should return by inserted order', async () => {
+        const tasks = await load();
+        const explicsitlySorted: Task[] = [...tasks.tasks];
+        explicsitlySorted.sort((a, b) => a.id - b.id);
+        expect(tasks.tasks).toEqual(explicsitlySorted);
+    });
+
     describe('Load by title tests', () => {
         it('when match at start', async () => {
             const tasks = await load({ title: "Deploy" });

@@ -27,5 +27,5 @@ function mapTaskProperties(tasksQueryResult: QueryResult): { tasks: Task[], tota
         tasks,
         totalCount: tasks?.length || 0
     };
-}
+};
 
